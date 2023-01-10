@@ -1,0 +1,32 @@
+class MinStack:
+
+    def __init__(self):
+        self.stack = []
+        self.heapStack = []
+        self.N = 0
+        self.minElement = float('inf')
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        heapq.heappush(self.heapStack, val)
+        self.N += 1
+        self.minElement = min(val, self.minElement)
+
+    def pop(self) -> None:
+        self.N -= 1
+        self.stack.pop()
+        self.heapStack = self.stack[:] # create a copy of the stack by using [:]
+        self.minElement = heapq.nsmallest(1, self.heapStack)[0] if 0 < self.N else float('inf')
+        
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.minElement
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(val)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
