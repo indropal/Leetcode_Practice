@@ -64,7 +64,7 @@ class LFUCache:
         self.cache_orderedCount[new_cnt][key] = value
         self.cache_orderedCount[new_cnt].move_to_end(key)
 
-
+ 
 # Your LFUCache object will be instantiated and called as such:
 # obj = LFUCache(capacity)
 # param_1 = obj.get(key)
