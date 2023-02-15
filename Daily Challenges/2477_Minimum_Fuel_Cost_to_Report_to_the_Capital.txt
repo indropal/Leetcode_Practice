@@ -1,0 +1,30 @@
+class Solution:
+    def minimumFuelCost(self, roads: List[List[int]], seats: int) -> int:
+
+        adjMat = collections.defaultdict(list)
+        ans = 0
+        for k, v in roads:
+            adjMat[k].append(v)
+            adjMat[v].append(k)
+        
+        # print(roads, adjMat)
+        # Use DFS to traverse the tree such that we can keep track of the nodes as well as 
+        # the previous nodes traversed
+        def dfs(node, prevNode):
+            nonlocal ans
+            passengers = 0 # per node is 1 passenger
+
+            for child in adjMat[node]:
+                # make sure that the node hasn't been traversed already as it is a bidirectional tree
+                if child != prevNode:
+                    otherPassengers = dfs(child, node) # get other passengers from the child nodes
+                    passengers += otherPassengers
+
+                    # we can accommodate passengers in a single car if number of seats exceeds the num of passengers
+                    ans += int(ceil( otherPassengers / seats))
+
+            return passengers + 1 # adjust for the node 0 i.e. capital city will have one representative
+
+        dfs(0, -1)
+
+        return ans
